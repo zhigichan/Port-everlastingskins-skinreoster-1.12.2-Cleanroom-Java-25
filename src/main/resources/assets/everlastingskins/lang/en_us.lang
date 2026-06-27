@@ -1,0 +1,5 @@
+commands.everlastingskins.skin.usage=/skin set mojang <username> OR /skin set random [slim|classic] [cape|nocape] OR /skin set web <slim|classic> <url> OR /skin clear OR /skin source
+commands.everlastingskins.skin.success=§aСкин успешно изменен на %s!
+commands.everlastingskins.skin.clear=§aВаш скин был сброшен к исходному.
+commands.everlastingskins.skin.fail=§cНе удалось загрузить скин. Проверьте правильность ника или лог сервера.
+commands.everlastingskins.skin.cooldown=§cПожалуйста, подождите перед следующей сменой скина.

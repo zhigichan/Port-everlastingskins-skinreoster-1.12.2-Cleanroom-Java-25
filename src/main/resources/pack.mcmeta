@@ -1,0 +1,7 @@
+{
+    "pack": {
+        "description": "everlastingskins resources",
+        "pack_format": 3,
+        "_comment": "Создан лёгкий бек порт SkinRestore и EverlAstingskins"
+    }
+}
