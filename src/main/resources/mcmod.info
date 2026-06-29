@@ -1,13 +1,13 @@
 [
   {
-    "modid": "everlastingskins",
-    "name": "§a§lEverlasting Skins",
+    "modid": "eternalskins",
+    "name": "§a§lEternalSkins",
     "description": "",
-    "version": "4.1.0",
+    "version": "1.0.2",
     "mcversion": "1.12.2",
     "url": "",
     "updateUrl": "",
-    "authorList": ["Levosilimo"],
+    "authorList": ["zhigichan_31"],
     "credits": "",
     "logoFile": "",
     "screenshots": [],

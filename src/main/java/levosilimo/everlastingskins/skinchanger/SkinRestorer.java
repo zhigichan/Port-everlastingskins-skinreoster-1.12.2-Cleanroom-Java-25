@@ -1,7 +1,7 @@
 package levosilimo.everlastingskins.skinchanger;
 
 import com.mojang.authlib.properties.Property;
-import levosilimo.everlastingskins.EverlastingSkins;
+import levosilimo.everlastingskins.EternalSkins;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -26,34 +26,33 @@ public class SkinRestorer {
 
     @SubscribeEvent
     public void onPlayerLoading(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.player instanceof EntityPlayerMP) {
-            EntityPlayerMP playerMP = (EntityPlayerMP) event.player;
+        if (event.player instanceof EntityPlayerMP playerMP) {
             UUID uuid = playerMP.getUniqueID();
-            String name = playerMP.getName();
 
-            EverlastingSkins.skinCommandExecutor.submit(() -> {
+            EternalSkins.skinCommandExecutor.submit(() -> {
                 try {
-                    Property skin = EverlastingSkins.getCachedSkinByUUID(uuid, name);
+                    String hashFromDatabase = EternalSkins.getStoredSkinHash(uuid);
+                    Property finalSkin = null;
 
-                    if (skin == null) {
-                        skin = MojangSkinProvider.getSkin(name);
-                        if (skin != null) {
-                            EverlastingSkins.saveSkinToDatabase(uuid, name, skin);
-                        }
+                    if (hashFromDatabase != null && !hashFromDatabase.isEmpty()) {
+                        finalSkin = EternalSkins.getSkinFromFile(hashFromDatabase);
                     }
 
-                    if (skin != null) {
-                        Property finalSkin = skin;
-                        if (SkinRestorer.server != null) {
-                            SkinRestorer.server.addScheduledTask(() -> {
-                                if (playerMP.connection != null) {
-                                    applySkin(playerMP, finalSkin);
-                                    new EmulateReconnectHandler(playerMP).emulateReconnect();
-                                }
-                            });
-                        }
+                    if (finalSkin != null) {
+                        Property skinToApply = finalSkin;
+                        SkinRestorer.server.addScheduledTask(() -> {
+                            if (playerMP.connection != null) {
+                                applySkin(playerMP, skinToApply);
+                                new EmulateReconnectHandler(playerMP).emulateReconnect();
+                            }
+                        });
+                    } else {
+                        EternalSkins.logger.info("[EternalSkins] Локальный скин для игрока {} не найден. Используется дефолтный.", playerMP.getName());
                     }
-                } catch (Exception ignored) {}
+
+                } catch (Exception e) {
+                    EternalSkins.logger.error("[EternalSkins] Ошибка при локальной загрузке скина для {}", playerMP.getName(), e);
+                }
             });
         }
     }
