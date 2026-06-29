@@ -1,6 +1,6 @@
-Port 
+Port EverlastingSkins/SkinRestorer
 
-1.12.2 Cleanroom(forge) Java 25
+1.12.2 Cleanroom (forge) Java 25
 
 Этот мод был создан от моего желания и необходимости скинчиков). 
 
